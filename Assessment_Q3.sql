@@ -1,4 +1,4 @@
--- Step 1: For each plan, find the date of its most recent deposit
+-- find the date of its most recent deposit for each plan,
 WITH last_deposit AS (
     SELECT
         plan_id,
@@ -7,7 +7,7 @@ WITH last_deposit AS (
     GROUP BY plan_id
 ),
 
--- Step 2: Flag inactive plans based on a 365-day threshold
+-- Flag inactive plans based on a 365-day threshold
  inactive_plans AS (
     SELECT
         p.id AS plan_id,
