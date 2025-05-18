@@ -1,3 +1,7 @@
+/*
+This query Calculate avg. transactions per month, group customers into frequency bands,
+and transaction counts & averages by segment.
+*/
 WITH transactions AS (
     SELECT
         owner_id AS customer_id,
@@ -7,7 +11,9 @@ WITH transactions AS (
     FROM savings_savingsaccount
     GROUP BY owner_id
 ),
-
+/*
+    This query below get all the content from transactions CTE and evaluate the average monthly transaction rate
+*/
 frequency AS (
     SELECT
         t.customer_id,
@@ -18,6 +24,13 @@ frequency AS (
     FROM transactions t
 ),
 
+/*
+    This query below get all the content from frequency CTE and categorize the average monthly transaction rate
+    IF the avg_transc_per_month >= 10 THEN the frequency category is 'High Frequency'
+    IF the avg_transc_per_month >= 3 THEN the frequency category is 'Medium Frequency'
+    ELSE 'Low Frequency'
+*/
+    
 category AS (
     SELECT
         f.customer_id,
@@ -30,6 +43,9 @@ category AS (
     FROM frequency f
 )
 
+/*
+the final output get the frequency category, number of customers, and their average transactions per month
+*/
 SELECT
     frequency_category,
     COUNT(*) AS customer_count,
