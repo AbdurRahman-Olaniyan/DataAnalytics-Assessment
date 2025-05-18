@@ -1,6 +1,31 @@
 # DataAnalytics-Assessment
 
-This repository contains my detailed solutions to the data analytics assessment focused on transactional and customer data. The questions cover real-world business scenarios such as customer segmentation, churn detection, and account activity tracking. This README outlines my approach for each question and reflects my problem-solving logic. It also highlights key challenges I encountered while writing the queries.
+This repository contains my detailed solutions to the o the SQL Proficiency Assessment focused on transactional and customer data. The questions cover business scenarios such as customer segmentation, account activity tracking, and identify customers for cross-selling opportunity. This README outlines my approach for each question and reflects my problem-solving logic. It also highlights key challenges I encountered while writing the queries.
+
+## Data Dictionary
+
+### users_customuser: : customer demographic and contact information
+- **id**: primary key for customer  
+- first_name, last_name…  
+
+### savings_savingsaccount:  records of deposit transactions
+- **owner_id** → users_customuser.id  
+- **confirmed_amount** (in kobo), transaction_date…  
+
+### plans_plan: records of plans created by customers
+- **owner_id**, **is_regular_savings**, **is_a_fund**, start_date…  
+
+### withdrawals_withdrawal: records of withdrawal transactions
+- **owner_id**, **amount_withdrawn**, **transaction_date**, **plan_id**…
+
+## Assessment Hints
+
+- `owner_id` is a foreign key to `users_customuser.id`  
+- `plan_id` is a foreign key to `plans_plan.id`  
+- For savings plans, filter where `is_regular_savings = 1`  
+- For investment plans, filter where `is_a_fund = 1`  
+- Use `confirmed_amount` for inflows; `amount_withdrawn` for outflows  
+- All amount fields are stored in kobo (100 kobo = 1 NGN)
 
 ---
 
@@ -117,5 +142,9 @@ Using `CURDATE()` enabled dynamic, date-relative logic for detecting inactive ac
 ```sql
 WHERE last_deposit_date < CURDATE() - INTERVAL 365 DAY
 ```
+### 3. Rewrinting Joins into CTEs for Better Performance and Clarity
+
+Initially, I built my queries using deeply nested joins with `WHERE` filters applied directly. This approach resulted in long compilation times and made the logic hard to follow. As the queries got more complex, especially with multiple joins, it became difficult to read and tune. The database optimizer also struggled to produce efficient execution and keeps disconnecting to the mySQL server. To solve this, I rewrite each query into well-named CTEs that isolate logical steps one at a time, such as plan counting, deposit summation, and customer filtering. This made the queries easier to manage and more aligned with the business logic and process.
+This change really helped me in a few ways. First, it improved performance because breaking the query into smaller, clear steps allowed the optimizer to create better execution plans, which made everything run faster. It also made the code easier to understand and maintain, since each CTE works like its own block that follows the business process. for example, starting with identifying plans, then calculating totals, and finally applying the rules. Lastly, it became easier to update or add new things later, like more filters or calculations, without needing to rewrite the whole query.
 
 This ensures queries remain future-proof
