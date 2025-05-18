@@ -1,3 +1,7 @@
+/*
+Estimate customer CLV = (transc/tenure)*12*avg_profit, where profit = 0.1% of transaction value.
+the query below get costumer tenure in months and ensure minimum of 1 month to avoid division errors
+*/
 WITH customer_tenure AS (
     SELECT
         id AS customer_id,
@@ -10,6 +14,10 @@ WITH customer_tenure AS (
     FROM users_customuser
 ),
 
+/*
+the query below get the costumers total transactions, and evaluate the average transaction value by converting to naira 
+and calculate profit_per_transaction that is 0.1% of the transaction value 
+*/
 transaction_metrics AS (
     SELECT
         owner_id AS customer_id,
@@ -20,6 +28,10 @@ transaction_metrics AS (
     GROUP BY owner_id
 )
 
+/*
+This query below get all the content from previous CTEs and outputs costumers name, tenure months, 
+Estimated Customer Livetime Value
+*/
 SELECT
     ct.customer_id,
     ct.name,
