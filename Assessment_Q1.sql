@@ -1,3 +1,6 @@
+/*
+This query find customers who own at least one savings plan and one investment plan, then sort them by their total confirmed deposit value.
+*/
 WITH plan_counts AS (
     SELECT
         owner_id,
@@ -16,6 +19,7 @@ savings_amount AS (
     FROM savings_savingsaccount
     GROUP BY owner_id
 )
+ -- this query below join the 2 CTE to get customer id (owner_id), name, number of savings and invesment plan that are at least greater than 1    
 SELECT
     u.id AS owner_id,
     CONCAT(u.first_name, ' ', u.last_name) AS name,
