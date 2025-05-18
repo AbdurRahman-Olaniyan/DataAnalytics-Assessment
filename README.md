@@ -48,14 +48,12 @@ This repository contains my detailed solutions to the o the SQL Proficiency Asse
 * Aggregated product types per customer using conditional sums to count how many savings (`is_regular_savings = 1`) and investment (`is_a_fund = 1`) plans they had.
 * Filtered to retain only customers with at least one of each product type.
 * Computed the total value of confirmed transactions (converted from kobo to naira) grouped by customer.
-* Joined the results with the customer table to display names and ranked by total deposit value.
+* Joined the results with the customer table to display names and sorted by total deposit value.
 
 **Business Relevance**:
-This query helps the business identify financially engaged customers with h at least one funded savings plan AND one funded investment plan—ideal candidates for cross-selling opportunity.
+This query helps the business identify financially engaged customers with at least one funded savings plan AND one funded investment plan. ideal candidates for cross-selling opportunity.
 
 [SQL Solution Script](./Assessment_Q1.sql)
-
-![Q1 Result Output](image.png)
 
 ---
 
@@ -67,7 +65,7 @@ This query helps the business identify financially engaged customers with h at l
 
 * Calculated each customer’s transaction span by subtracting the first transaction date from the last.
 * Divided total transactions by active months (approximated by `DATEDIFF/30.0`) to get average monthly frequency.
-* Used `GREATEST(..., 1)` to ensure the denominator never drops to zero, avoiding overinflated frequencies.
+* Used `GREATEST(..., 1)` to ensure the denominator never drops to zero, this make sure it never divide by zero or a very small number, so the results don’t become too large or misleading.
 * Segmented customers into `Low`, `Medium`, and `High` bands using a `CASE` statement.
 * Aggregated and sorted the segment counts for summary reporting.
 
@@ -76,7 +74,6 @@ Segmentation like this helps track engagement such as frequent vs. occasional us
 
 [SQL Solution Script](./Assessment_Q2.sql)
 
-![Q2 Result Output](image-1.png)
 ---
 
 ## Question 3: Account Inactivity Alert
@@ -96,7 +93,6 @@ This type of query supports customer reactivation strategies and helps maintain 
 
 [SQL Solution Script](./Assessment_Q3.sql)
 
-![Q3 Result Output](image-2.png)
 ---
 
 ## Question 4: Customer Lifetime Value (CLV) Estimation
@@ -120,7 +116,6 @@ CLV is crucial for understanding customer profitability and making informed mark
 
 [SQL Solution Script](./Assessment_Q4.sql)
 
-![Q4 Result Output](image-3.png)
 ---
 
 ## Challenges Encountered
